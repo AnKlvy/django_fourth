@@ -1,0 +1,15 @@
+<h1>Список задач</h1>
+<a href="{% url 'task-create' %}">Создать новую задачу</a><br>
+<a href="{% url 'file_upload' %}">Загрузить файл</a>  <!-- Ссылка на загрузку файла -->
+
+<ul>
+  {% for task in tasks %}
+    <li>
+      <strong>{{ task.title }}</strong> ({{ task.get_status_display }})
+      <a href="{% url 'task-update' task.pk %}">Редактировать</a>
+      <a href="{% url 'task-delete' task.pk %}">Удалить</a>
+    </li>
+  {% empty %}
+    <li>Нет задач для отображения.</li>  <!-- Это сообщение отобразится, если задач нет -->
+  {% endfor %}
+</ul>

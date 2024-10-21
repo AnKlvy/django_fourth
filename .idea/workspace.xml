@@ -4,19 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ade90ff2-1ad1-41ae-a636-bf5e4dc4c491" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/django_fourth.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_fourth/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_fourth/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_fourth/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_fourth/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_fourth/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+    <list default="true" id="ade90ff2-1ad1-41ae-a636-bf5e4dc4c491" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/schema.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/services.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/test_cache_speed.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/test_minio.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entrypoint.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/files/upload.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/tasks/task_confirm_delete.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/tasks/task_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/tasks/task_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_fourth/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_fourth/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_fourth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_fourth/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +30,40 @@
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;AnKlvy&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AnKlvy/django_fourth.git&quot;,
+    &quot;accountId&quot;: &quot;099c005c-dd6e-485d-8ac5-0fb005376434&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -38,20 +73,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Acer/PycharmProjects/whole_project4&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Acer\PycharmProjects\django_fourth" />
+      <recent name="C:\Users\Acer\PycharmProjects\django_fourth\django_fourth" />
+      <recent name="C:\Users\Acer\PycharmProjects\django_fourth\templates\tasks" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="django_fourth" type="Python.DjangoServer" factoryName="Django server">
       <module name="django_fourth" />
@@ -62,6 +108,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (django_fourth)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -75,6 +122,12 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
       <method v="2" />
     </configuration>
   </component>
@@ -95,11 +148,78 @@
       <option name="presentableId" value="Default" />
       <updated>1727883008632</updated>
       <workItem from="1727883027543" duration="380000" />
-      <workItem from="1727883433530" duration="1132000" />
+      <workItem from="1727883433530" duration="3662000" />
+      <workItem from="1727936285684" duration="8140000" />
+      <workItem from="1727955542779" duration="742000" />
+      <workItem from="1728304014283" duration="4360000" />
+      <workItem from="1728355896614" duration="15000" />
+      <workItem from="1728360193323" duration="5560000" />
+      <workItem from="1728369390101" duration="5807000" />
+      <workItem from="1728392214939" duration="784000" />
+      <workItem from="1728393053343" duration="2557000" />
+      <workItem from="1728402388340" duration="3325000" />
+      <workItem from="1728456614769" duration="4056000" />
+      <workItem from="1728537984752" duration="7484000" />
+      <workItem from="1728910299547" duration="4710000" />
+      <workItem from="1728963482481" duration="3480000" />
+      <workItem from="1728978432254" duration="8632000" />
+      <workItem from="1729064512801" duration="10455000" />
+      <workItem from="1729085515339" duration="5650000" />
+      <workItem from="1729095774854" duration="10281000" />
+      <workItem from="1729456709313" duration="15000" />
+      <workItem from="1729456752352" duration="38000" />
+      <workItem from="1729457269648" duration="84000" />
+      <workItem from="1729520996804" duration="860000" />
+      <workItem from="1729522807078" duration="32000" />
+      <workItem from="1729522870209" duration="1859000" />
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1727885234938</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1727885234938</updated>
+    </task>
+    <task id="LOCAL-00002" summary="init">
+      <option name="closed" value="true" />
+      <created>1727885675564</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1727885675564</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>
