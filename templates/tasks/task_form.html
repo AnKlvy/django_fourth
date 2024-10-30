@@ -3,6 +3,7 @@
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
+{#    <input name="user_pk" value="{{ user.pk }}">  <!-- Передаем pk пользователя -->#}
   <button type="submit">Сохранить</button>
 </form>
 

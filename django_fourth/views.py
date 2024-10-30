@@ -1,17 +1,14 @@
-# django_fourth/views.py
-from django.shortcuts import render, get_object_or_404, redirect
+import hashlib
+import os
+
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from .models import Task, UploadedFile
 from .forms import TaskForm, UploadedFileForm
-from .services import *
-import os
-import hashlib
+from .services import check_user_exists, upload_file_to_minio, get_uploaded_files
 
 # Список всех задач (Read)
-# @method_decorator(cache_page(60 * 3), name='dispatch')  # Кэшируем на 3 минут
 class TaskListView(ListView):
     model = Task
     template_name = 'tasks/task_list.html'
@@ -24,12 +21,30 @@ class TaskCreateView(CreateView):
     template_name = 'tasks/task_form.html'
     success_url = reverse_lazy('task-list')
 
-# Обновление существующей задачи (Update)
+    def form_valid(self, form):
+        user_pk = self.request.POST.get('user_pk')
+        print(user_pk)
+        if check_user_exists(user_pk):
+            return super().form_valid(form)
+        else:
+            form.add_error(None, "Пользователь не найден.")
+            return self.form_invalid(form)
+
+# Обновление задачи (Update)
 class TaskUpdateView(UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/task_form.html'
     success_url = reverse_lazy('task-list')
+
+    def form_valid(self, form):
+        user_pk = self.request.POST.get('user_pk')
+
+        if check_user_exists(user_pk):
+            return super().form_valid(form)
+        else:
+            form.add_error(None, "Пользователь не найден.")
+            return self.form_invalid(form)
 
 # Удаление задачи (Delete)
 class TaskDeleteView(DeleteView):
@@ -37,56 +52,48 @@ class TaskDeleteView(DeleteView):
     template_name = 'tasks/task_confirm_delete.html'
     success_url = reverse_lazy('task-list')
 
+    # def get(self, request, *args, **kwargs):
+    #     user_pk = self.request.POST.get('user_pk')
+
+        # if check_user_exists(user_pk):
+        #     return super().get(request, *args, **kwargs)
+        # else:
+        #     return redirect('task-list')
+
 # Загрузка файла (Create)
 class UploadedFileCreateView(CreateView):
     model = UploadedFile
     form_class = UploadedFileForm
-    template_name = 'files/upload.html'  # Убедитесь, что путь к шаблону верный
-    success_url = reverse_lazy('file_upload')  # URL для перенаправления после успешной загрузки
+    template_name = 'files/upload.html'
+    success_url = reverse_lazy('file_upload')
 
     def form_valid(self, form):
-        # Получаем файл из формы
         file = form.cleaned_data.get('file')
 
         if file:
             original_name = file.name
-            file_size = file.size
             file_extension = os.path.splitext(original_name)[1]
-
-            # Генерируем уникальное имя файла
             unique_name = hashlib.sha1(original_name.encode('utf-8')).hexdigest() + file_extension
 
-            # Загружаем файл в MinIO
             upload_file_to_minio(file, unique_name)
 
-            # Сохраняем данные о файле в базе данных
-            uploaded_file = UploadedFile(
+            form.instance = UploadedFile(
                 original_name=original_name,
                 unique_name=unique_name,
                 file_extension=file_extension,
-                file_size=file_size
+                file_size=file.size
             )
-            uploaded_file.save()
-
-            # Обновляем форму данными загруженного файла
-            form.instance = uploaded_file
-
             return super().form_valid(form)
         else:
             form.add_error(None, "Ошибка при загрузке файла.")
             return self.form_invalid(form)
 
     def get_context_data(self, **kwargs):
-        # Получаем контекст для отображения списка загруженных файлов
         context = super().get_context_data(**kwargs)
-        # context['uploaded_files'] = get_uploaded_files()
-        updated_files =[]
         uploaded_files = get_uploaded_files()
+
         for uploaded_file in uploaded_files:
             uploaded_file['object_name'] = UploadedFile.objects.get(unique_name=uploaded_file['object_name']).original_name
-            # Добавляем измененный файл в новый список
-            updated_files.append(uploaded_file)
-        context['updated_files'] = updated_files
 
-        print(context['updated_files'])
+        context['updated_files'] = uploaded_files
         return context

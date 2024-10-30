@@ -1,6 +1,8 @@
+import requests
 from minio import Minio
 from minio.error import S3Error
 from django.conf import settings
+
 
 def upload_file_to_minio(file, unique_name):
     # Используем правильный endpoint для локального MinIO
@@ -53,3 +55,13 @@ def get_uploaded_files():
     except S3Error as exc:
         print("Произошла ошибка:", exc)
         return []
+
+    # Проверка существования пользователя по user_pk
+def check_user_exists(user_pk):
+    headers = {
+        'Host': 'localhost:8001'
+    }
+    response = requests.get(f'http://user_service:8001/api/user/{user_pk}/', headers=headers)
+    print("User response status: ")
+    print(response.status_code)
+    return response.status_code == 200
