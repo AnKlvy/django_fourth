@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_fourth',
     'graphene_django',
     'storages',
+    'celery',
+    'kombu.transport',
 ]
 
 GRAPHENE = {
@@ -143,3 +145,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #         return None
 #
 # MIGRATION_MODULES = DisableMigrations()
+
+# Конфигурация брокера для Celery и RabbitMQ
+RABBITMQ = {
+    "PROTOCOL": "amqp", # in prod change with "amqps"
+    "HOST": os.getenv("RABBITMQ_HOST", "rabbitmq"),
+    "PORT": os.getenv("RABBITMQ_PORT", 5672),
+    "USER": os.getenv("RABBITMQ_USER", "guest"),
+    "PASSWORD": os.getenv("RABBITMQ_PASSWORD", "guest"),
+}
+CELERY_BROKER_URL = f"{RABBITMQ['PROTOCOL']}://{RABBITMQ['USER']}:{RABBITMQ['PASSWORD']}@{RABBITMQ['HOST']}:{RABBITMQ['PORT']}"
+# CELERY_RESULT_BACKEND = 'rpc://'  # Использование RPC для передачи результатов задач
+CELERY_ACCEPT_CONTENT = ['json']  # Поддержка формата JSON
+
+BROKER_URL = os.environ.get('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
+
+CACHES = {
+    'default' : {
+        'BACKEND' : 'django_redis.cache.RedisCache' ,
+        'LOCATION' : 'redis://127.0.0.1:6379/1' ,   # Используйте соответствующий URL-адрес сервера Redis
+        'OPTIONS' : {
+            'CLIENT_CLASS' : 'django_redis.client.DefaultClient' ,
+        }
+    }
+}

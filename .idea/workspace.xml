@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ade90ff2-1ad1-41ae-a636-bf5e4dc4c491" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/.env.dev" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_fourth/celery.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_fourth/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_fourth/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_fourth/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_fourth/services.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_fourth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_fourth/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_fourth/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_fourth/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/tasks/task_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tasks/task_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wait-for.sh" beforeDir="false" afterPath="$PROJECT_DIR$/wait-for.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +85,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Acer\PycharmProjects\whole_project4\django_fourth\django_fourth" />
+      <recent name="C:\Users\Acer\PycharmProjects\whole_project4\django_fourth" />
       <recent name="C:\Users\Acer\PycharmProjects\django_fourth" />
       <recent name="C:\Users\Acer\PycharmProjects\django_fourth\django_fourth" />
       <recent name="C:\Users\Acer\PycharmProjects\django_fourth\templates\tasks" />
@@ -163,6 +167,12 @@
       <workItem from="1729522807078" duration="32000" />
       <workItem from="1729522870209" duration="1859000" />
       <workItem from="1730266407715" duration="660000" />
+      <workItem from="1730286931023" duration="389000" />
+      <workItem from="1730371184764" duration="60000" />
+      <workItem from="1730371517002" duration="85000" />
+      <workItem from="1730372627339" duration="226000" />
+      <workItem from="1730372917203" duration="1672000" />
+      <workItem from="1730725175227" duration="1539000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
