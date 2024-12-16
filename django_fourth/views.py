@@ -3,6 +3,7 @@ import os
 
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Task, UploadedFile
 from .forms import TaskForm, UploadedFileForm
@@ -97,3 +98,47 @@ class UploadedFileCreateView(CreateView):
 
         context['updated_files'] = uploaded_files
         return context
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import UploadedFileSerializer
+from .services import upload_file_to_minio, get_uploaded_files
+
+import hashlib
+import os
+from django.db import IntegrityError
+
+class FileUploadAPIView(APIView):
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        file = request.FILES.get('file')
+        if not file:
+            return Response({'error': 'Файл не предоставлен'}, status=status.HTTP_400_BAD_REQUEST)
+
+        original_name = file.name
+        file_extension = os.path.splitext(original_name)[1]
+        unique_name = hashlib.sha1(original_name.encode('utf-8')).hexdigest() + file_extension
+
+        # Проверка на существование файла с таким именем
+        while UploadedFile.objects.filter(unique_name=unique_name).exists():
+            unique_name = hashlib.sha1((unique_name + str(file.size)).encode('utf-8')).hexdigest() + file_extension
+
+        try:
+            upload_file_to_minio(file, unique_name)
+
+            uploaded_file = UploadedFile.objects.create(
+                original_name=original_name,
+                unique_name=unique_name,
+                file_extension=file_extension,
+                file_size=file.size
+            )
+
+            serializer = UploadedFileSerializer(uploaded_file)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            return Response({'error': 'Ошибка загрузки файла'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def get(self, request, *args, **kwargs):
+        files = get_uploaded_files()
+        return Response(files, status=status.HTTP_200_OK)

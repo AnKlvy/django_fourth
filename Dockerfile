@@ -1,33 +1,22 @@
-FROM python:bullseye
+# python official image
+FROM python:3.12.0-alpine3.18
 
-# Устанавливаем рабочую директорию
-WORKDIR /usr/src/django_fourth
+# install dependencies
+RUN \
+  apk update && \
+  apk add postgresql-dev gcc python3-dev musl-dev zlib-dev jpeg-dev
 
-# Копируем файл зависимостей
-COPY requirements.txt .
+# set work directory
+WORKDIR /usr/src/app
 
-# Устанавливаем необходимые зависимости
-RUN apt-get update \
-    && apt-get install -y libpq-dev postgresql-client netcat-openbsd gcc python3-dev \
-    && pip install --no-cache-dir -r requirements.txt
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
+# install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
-
-# Устанавливаем переменные окружения
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Копируем проект
+# copy project
 COPY . .
-
-# Copy the wait-for script from local to container
-COPY ./wait-for.sh /bin/wait-for.sh
-RUN chmod 777 -R /bin/wait-for.sh
-#RUN chmod +x entrypoint.sh  # Делаем скрипт исполняемым
-#
-## Укажите команду запуска
-#ENTRYPOINT ["./entrypoint.sh"]
-# Команда для запуска приложения
-CMD sh -c "/bin/wait-for.sh db:5432 && /bin/wait-for.sh rabbitmq:5672 && \
-           python manage.py runserver 0.0.0.0:8000"
-
