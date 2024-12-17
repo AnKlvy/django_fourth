@@ -1,6 +1,7 @@
 import hashlib
 import os
 
+from django.core.exceptions import ValidationError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
@@ -8,6 +9,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Task, UploadedFile
 from .forms import TaskForm, UploadedFileForm
 from .services import check_user_exists, upload_file_to_minio, get_uploaded_files
+from minio.error import S3Error
 
 # Список всех задач (Read)
 class TaskListView(ListView):
@@ -136,8 +138,23 @@ class FileUploadAPIView(APIView):
 
             serializer = UploadedFileSerializer(uploaded_file)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except IntegrityError:
-            return Response({'error': 'Ошибка загрузки файла'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        except IntegrityError as e:
+            print(f"Ошибка базы данных: {str(e)}")
+            return Response({'error': 'Ошибка при сохранении данных в базу'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        except S3Error as e:
+            print(f"Ошибка MinIO: {str(e)}")
+            return Response({'error': 'Ошибка загрузки файла в MinIO'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        except ValidationError as e:
+            print(f"Ошибка валидации: {str(e)}")
+            return Response({'error': 'Ошибка валидации данных'}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            print(f"Неизвестная ошибка: {str(e)}")
+            return Response({'error': 'Неизвестная ошибка'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get(self, request, *args, **kwargs):
         files = get_uploaded_files()

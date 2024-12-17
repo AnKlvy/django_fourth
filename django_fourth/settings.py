@@ -169,3 +169,10 @@ CACHES = {
         }
     }
 }
+
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_WORKER_SEND_TASK_EVENTS = True
+CELERY_TASK_SEND_TASK_SENT_EVENT = True
